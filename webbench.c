@@ -28,7 +28,7 @@
 volatile int timerexpired = 0;
 int speed = 0;
 int failed = 0;
-int bytes = 0;
+unsigned long long bytes = 0;
 /* globals */
 int http10 = 1; /* 0 - http/0.9, 1 - http/1.0, 2 - http/1.1 */
 /* Allow: GET, HEAD, OPTIONS, TRACE */
@@ -340,7 +340,8 @@ void build_request(const char *url)
 /* vraci system rc error kod */
 static int bench(void)
 {
-    int i, j, k;
+    int i, j;
+    unsigned long long k;
     pid_t pid=0;
     FILE *f;
 
@@ -397,7 +398,7 @@ static int bench(void)
         }
 
         /* fprintf(stderr,"Child - %d %d\n",speed,failed); */
-        fprintf(f, "%d %d %d\n", speed, failed, bytes);
+        fprintf(f, "%d %d %llu\n", speed, failed, bytes);
         fclose(f);
         return 0;
     } else {
@@ -413,7 +414,7 @@ static int bench(void)
         bytes = 0;
 
         while(1) {
-            pid = fscanf(f,"%d %d %d", &i, &j, &k);
+            pid = fscanf(f,"%d %d %llu", &i, &j, &k);
             if (pid < 2) {
                 fprintf(stderr,"Some of our childrens died.\n");
                 break;
