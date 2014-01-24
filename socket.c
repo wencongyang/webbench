@@ -32,7 +32,7 @@ int Socket(const char *host, int clientPort)
     unsigned long inaddr;
     struct sockaddr_in ad;
     struct hostent *hp;
-    
+
     memset(&ad, 0, sizeof(ad));
     ad.sin_family = AF_INET;
 
@@ -47,7 +47,7 @@ int Socket(const char *host, int clientPort)
         memcpy(&ad.sin_addr, hp->h_addr, hp->h_length);
     }
     ad.sin_port = htons(clientPort);
-    
+
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
         return sock;
